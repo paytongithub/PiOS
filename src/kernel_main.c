@@ -5,6 +5,8 @@
 
 
 void main() {    
+    wait();
+
     struct list_element c = { NULL, 3};
     struct list_element b = { &c, 2};
     struct list_element a = { &b, 1};
@@ -32,3 +34,15 @@ void kernel_main() {
     }
 }
 */
+
+unsigned long get_timer_count () {
+    unsigned long * timer_count_register = 0 x3f003004;
+    return * timer_count_register;
+}
+
+void wait() {
+    int start = get_timer_count();
+    while(get_timer_count() - start < 1000) {
+
+    }
+}
