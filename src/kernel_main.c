@@ -1,7 +1,6 @@
-#include "rprintf.c"
 #include "rprintf.h"
-#include "list.c"
-#include "serial.c"
+#include "list.h"
+#include "serial.h"
 
 char glbl[128];
 
@@ -13,7 +12,7 @@ unsigned long get_timer_count() {
 
 void wait() {
     int start = get_timer_count();
-    while(get_timer_count() - start < 1000) {
+    while(get_timer_count() - start < 1000) { 
     }
 }
 
@@ -22,21 +21,30 @@ void bss() {
     char *bssstart, *bssend;
     bssstart = &__bss_start;
     bssend = (char *)&__bss_end;
-
+    
     for (int i = 0; i <= bssend - bssstart; i++) {
-        bssstart[i] = 0;
+	bssstart[i] = 0;
     }
 }
 
+int getEL() {
+    unsigned int el;
+    asm("mrs %0,CurrentEL"
+	: "=r"(el)
+	:
+	:);
+    return (el>>2);
+}
 
 void kernel_main() {
-	
-    wait();
 
-    bss();
+    // wait();
 
-    esp_printf(putc, "test");
+    //  bss();    
 
+    esp_printf(putc, "Current Execution Level is %d\r\n", getEL());
+
+    /*
     struct list_element c = { NULL, 3};
     struct list_element b = { &c, 2};
     struct list_element a = { &b, 1};
@@ -44,8 +52,10 @@ void kernel_main() {
     struct list_element test = { NULL, 10};
     list_add(head, &test);
     list_remove(&c);
-
+    */
     while(1) {
-
+    
     }
 }
+
+
