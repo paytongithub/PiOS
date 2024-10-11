@@ -1,6 +1,7 @@
 #include "rprintf.h"
 #include "list.h"
 #include "serial.h"
+#include "page.h"
 
 char glbl[128];
 
@@ -37,8 +38,10 @@ int getEL() {
 }
 
 void kernel_main() {
-
-    // wait();
+    init_pfa_list();
+    struct ppage *process = allocate_physical_pages(10);
+    free_physical_pages(process);
+// wait();
 
     //  bss();    
 
