@@ -2,6 +2,8 @@
 #include "list.h"
 #include "serial.h"
 #include "page.h"
+#include "getEL.c"
+#include "mmu.h"
 
 char glbl[128];
 
@@ -38,12 +40,14 @@ int getEL() {
 }
 
 void kernel_main() {
+    mapPages(0,0);
+
     init_pfa_list();
     struct ppage *process = allocate_physical_pages(10);
     free_physical_pages(process);
-// wait();
+    // wait();
 
-    //  bss();    
+    //  bss();
 
     esp_printf(putc, "Current Execution Level is %d\r\n", getEL());
 
